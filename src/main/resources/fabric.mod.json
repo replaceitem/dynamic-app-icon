@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "dynamicappicon",
+  "version": "${version}",
+  "name": "Dynamic App Icon",
+  "description": "Client side mod that switches the application icon to match the current world or server icon",
+  "authors": [
+    "replaceitem"
+  ],
+  "contact": {
+    "homepage": "https://modrinth.com/mod/dynamic-app-icon",
+    "issues": "https://github.com/replaceitem/dynamic-app-icon/issues",
+    "sources": "https://github.com/replaceitem/dynamic-app-icon"
+  },
+  "license": "MIT",
+  "icon": "assets/dynamicappicon/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "net.replaceitem.dynamicappicon.DynamicAppIcon"
+    ]
+  },
+  "mixins": [
+    "dynamicappicon.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.6",
+    "minecraft": ">=1.19.4",
+    "fabric": "*"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.discord": "https://discord.gg/etTDQAVSgt"
+      }
+    }
+  }
+}
