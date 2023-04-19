@@ -17,7 +17,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 @Mixin(MinecraftClient.class)
@@ -25,8 +24,6 @@ public abstract class MinecraftClientMixin implements IconSetter {
     @Shadow @Final private Window window;
 
     @Shadow @Nullable public Screen currentScreen;
-
-    @Shadow protected abstract InputSupplier<InputStream> getDefaultResourceSupplier(String... segments) throws IOException;
 
     @Override
     public void setIcon(InputSupplier<InputStream> smallIcon, InputSupplier<InputStream> bigIcon) {
@@ -38,20 +35,11 @@ public abstract class MinecraftClientMixin implements IconSetter {
         }
     }
     
-    @Override
-    public void resetIcon() {
-        try {
-            this.window.setIcon(this.getDefaultResourceSupplier("icons", "icon_16x16.png"), this.getDefaultResourceSupplier("icons", "icon_32x32.png"));
-        } catch (IOException e) {
-            DynamicAppIcon.LOGGER.error("Could not set icon back to default");
-        }
-    }
-    
     
     @Inject(method = "setScreen", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;updateWindowTitle()V"))
     private void onScreenChanged(Screen screen, CallbackInfo ci) {
         if(this.currentScreen instanceof TitleScreen || this.currentScreen instanceof SelectWorldScreen || this.currentScreen instanceof MultiplayerScreen) {
-            resetIcon();
+            DynamicAppIcon.resetIcon();
         }
     }
 }
