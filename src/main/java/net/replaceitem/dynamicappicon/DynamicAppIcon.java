@@ -20,8 +20,8 @@ public class DynamicAppIcon implements ClientModInitializer {
         
     }
 
-    public static void setIcon(InputSupplier<InputStream> smallIcon, InputSupplier<InputStream> bigIcon) {
-        ((IconSetter) MinecraftClient.getInstance()).setIcon(smallIcon, bigIcon);
+    public static void setIcon(InputSupplier<InputStream> icon) {
+        ((IconSetter) MinecraftClient.getInstance()).setIcon(icon);
     }
 
     public static void setIcon(NativeImage nativeImage) {
@@ -34,7 +34,6 @@ public class DynamicAppIcon implements ClientModInitializer {
     }
 
     public static void setIcon(byte[] favicon) {
-        // using unscaled icon twice, might want to scale to 16 and 32
-        setIcon(() -> new ByteArrayInputStream(favicon), () -> new ByteArrayInputStream(favicon));
+        setIcon(() -> new ByteArrayInputStream(favicon));
     }
 }
