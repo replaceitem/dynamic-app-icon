@@ -24,6 +24,10 @@ public class DynamicAppIcon implements ClientModInitializer {
         ((IconSetter) MinecraftClient.getInstance()).setIcon(icon);
     }
 
+    public static void resetIcon() {
+        ((IconSetter) MinecraftClient.getInstance()).resetIcon();
+    }
+
     public static void setIcon(NativeImage nativeImage) {
         try {
             byte[] bytes = nativeImage.getBytes();
@@ -34,6 +38,7 @@ public class DynamicAppIcon implements ClientModInitializer {
     }
 
     public static void setIcon(byte[] favicon) {
-        setIcon(() -> new ByteArrayInputStream(favicon));
+        if(favicon == null) resetIcon();
+         else setIcon(() -> new ByteArrayInputStream(favicon));
     }
 }
