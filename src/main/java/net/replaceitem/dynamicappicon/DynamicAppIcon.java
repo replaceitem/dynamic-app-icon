@@ -39,6 +39,6 @@ public class DynamicAppIcon implements ClientModInitializer {
 
     public static void setIcon(byte[] favicon) {
         if(favicon == null) resetIcon();
-         else setIcon(() -> new ByteArrayInputStream(favicon));
+        else setIcon(() -> new ByteArrayInputStream(favicon));
     }
 }
