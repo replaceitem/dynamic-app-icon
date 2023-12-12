@@ -1,5 +1,6 @@
 package net.replaceitem.dynamicappicon.mixin;
 
+import net.minecraft.client.gui.screen.world.WorldIcon;
 import net.minecraft.client.gui.screen.world.WorldListWidget;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
@@ -14,12 +15,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(WorldListWidget.WorldEntry.class)
 public class WorldListWidgetWorldEntryMixin {
-    @Shadow @Final private @Nullable NativeImageBackedTexture icon;
+    @Shadow @Final private @Nullable WorldIcon icon;
 
     @Inject(method = "start", at = @At("HEAD"))
     private void onSingleplayerStart(CallbackInfo ci) {
         if(this.icon == null) return;
-        NativeImage image = this.icon.getImage();
+        NativeImageBackedTexture texture = ((WorldIconAccessor) this.icon).getTexture();
+        if(texture == null) return;
+        NativeImage image = texture.getImage();
         if(image == null) return;
         DynamicAppIcon.setIcon(image);
     }

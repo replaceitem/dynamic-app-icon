@@ -4,11 +4,12 @@
   "package": "net.replaceitem.dynamicappicon.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "MinecraftClientAccessor"
+    
   ],
   "client": [
     "MinecraftClientMixin",
     "MultiplayerServerListWidgetServerEntryMixin",
+    "WorldIconAccessor",
     "WorldListWidgetWorldEntryMixin"
   ],
   "injectors": {
