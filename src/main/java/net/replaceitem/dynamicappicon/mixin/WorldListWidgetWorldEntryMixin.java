@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class WorldListWidgetWorldEntryMixin {
     @Shadow @Final private @Nullable WorldIcon icon;
 
-    @Inject(method = "start", at = @At("HEAD"))
+    @Inject(method = "play", at = @At("HEAD"))
     private void onSingleplayerStart(CallbackInfo ci) {
         if(this.icon == null) return;
         NativeImageBackedTexture texture = ((WorldIconAccessor) this.icon).getTexture();
