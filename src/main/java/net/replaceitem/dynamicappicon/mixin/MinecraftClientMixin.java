@@ -10,7 +10,6 @@ import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.util.Icons;
 import net.minecraft.client.util.Window;
 import net.minecraft.resource.DefaultResourcePack;
-import net.minecraft.resource.InputSupplier;
 import net.replaceitem.dynamicappicon.DynamicAppIcon;
 import net.replaceitem.dynamicappicon.IconSetter;
 import org.jetbrains.annotations.Nullable;
@@ -26,7 +25,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.ByteBuffer;
 
 @Mixin(MinecraftClient.class)
@@ -35,25 +33,22 @@ public abstract class MinecraftClientMixin implements IconSetter {
     @Shadow @Nullable public Screen currentScreen;
     @Shadow public abstract DefaultResourcePack getDefaultResourcePack();
     
-    public void setIcon(InputSupplier<InputStream> icon) {
+    @Override
+    public void setIcon(NativeImage icon) {
         if (MinecraftClient.IS_SYSTEM_MAC) {
             DynamicAppIcon.LOGGER.error("Mac is not yet supported");
             return;
         }
         try (MemoryStack memoryStack = MemoryStack.stackPush()) {
             GLFWImage.Buffer buffer = GLFWImage.malloc(1, memoryStack);
-            try (NativeImage nativeImage = NativeImage.read(icon.get());) {
-                ByteBuffer byteBuffer = MemoryUtil.memAlloc(nativeImage.getWidth() * nativeImage.getHeight() * 4);
-                byteBuffer.asIntBuffer().put(nativeImage.copyPixelsRgba());
-                buffer.position(0);
-                buffer.width(nativeImage.getWidth());
-                buffer.height(nativeImage.getHeight());
-                buffer.pixels(byteBuffer);
-                GLFW.glfwSetWindowIcon(this.window.getHandle(), buffer.position(0));
-                MemoryUtil.memFree(byteBuffer);
-            } catch (IOException e) {
-                DynamicAppIcon.LOGGER.error("Could not set icon");
-            }
+            ByteBuffer byteBuffer = MemoryUtil.memAlloc(icon.getWidth() * icon.getHeight() * 4);
+            byteBuffer.asIntBuffer().put(icon.copyPixelsAbgr());
+            buffer.position(0);
+            buffer.width(icon.getWidth());
+            buffer.height(icon.getHeight());
+            buffer.pixels(byteBuffer);
+            GLFW.glfwSetWindowIcon(this.window.getHandle(), buffer.position(0));
+            MemoryUtil.memFree(byteBuffer);
         }
     }
     
