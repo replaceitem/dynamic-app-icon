@@ -55,7 +55,7 @@ public abstract class MinecraftClientMixin implements IconSetter {
     @Override
     public void resetIcon() {
         try {
-            this.window.setIcon(this.getDefaultResourcePack(), SharedConstants.getGameVersion().isStable() ? Icons.RELEASE : Icons.SNAPSHOT);
+            this.window.setIcon(this.getDefaultResourcePack(), SharedConstants.getGameVersion().stable() ? Icons.RELEASE : Icons.SNAPSHOT);
         } catch (IOException iOException) {
             DynamicAppIcon.LOGGER.error("Could not set icon back to default");
         }
