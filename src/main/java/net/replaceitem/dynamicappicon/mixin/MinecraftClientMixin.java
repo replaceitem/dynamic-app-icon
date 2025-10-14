@@ -6,6 +6,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.gui.screen.world.SelectWorldScreen;
+import net.minecraft.client.input.SystemKeycodes;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.util.Icons;
 import net.minecraft.client.util.Window;
@@ -35,7 +36,7 @@ public abstract class MinecraftClientMixin implements IconSetter {
     
     @Override
     public void setIcon(NativeImage icon) {
-        if (MinecraftClient.IS_SYSTEM_MAC) {
+        if (SystemKeycodes.IS_MAC_OS) {
             DynamicAppIcon.LOGGER.error("Mac is not yet supported");
             return;
         }
