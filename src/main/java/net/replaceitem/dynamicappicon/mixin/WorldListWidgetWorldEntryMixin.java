@@ -1,9 +1,9 @@
 package net.replaceitem.dynamicappicon.mixin;
 
-import net.minecraft.client.gui.screen.world.WorldIcon;
-import net.minecraft.client.gui.screen.world.WorldListWidget;
-import net.minecraft.client.texture.NativeImage;
-import net.minecraft.client.texture.NativeImageBackedTexture;
+import com.mojang.blaze3d.platform.NativeImage;
+import net.minecraft.client.gui.screens.FaviconTexture;
+import net.minecraft.client.gui.screens.worldselection.WorldSelectionList;
+import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.replaceitem.dynamicappicon.DynamicAppIcon;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
@@ -13,16 +13,16 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(WorldListWidget.WorldEntry.class)
+@Mixin(WorldSelectionList.WorldListEntry.class)
 public class WorldListWidgetWorldEntryMixin {
-    @Shadow @Final private @Nullable WorldIcon icon;
+    @Shadow @Final private @Nullable FaviconTexture icon;
 
-    @Inject(method = "play", at = @At("HEAD"))
+    @Inject(method = "joinWorld", at = @At("HEAD"))
     private void onSingleplayerStart(CallbackInfo ci) {
         if(this.icon == null) return;
-        NativeImageBackedTexture texture = ((WorldIconAccessor) this.icon).getTexture();
+        DynamicTexture texture = ((WorldIconAccessor) this.icon).getTexture();
         if(texture == null) return;
-        NativeImage image = texture.getImage();
+        NativeImage image = texture.getPixels();
         if(image == null) return;
         DynamicAppIcon.setIcon(image);
     }
