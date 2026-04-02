@@ -1,18 +1,16 @@
 {
-  "required": true,
-  "minVersion": "0.8",
-  "package": "net.replaceitem.dynamicappicon.mixin",
-  "compatibilityLevel": "JAVA_21",
-  "mixins": [
-    
-  ],
-  "client": [
-    "MinecraftClientMixin",
-    "MultiplayerServerListWidgetServerEntryMixin",
-    "WorldIconAccessor",
-    "WorldListWidgetWorldEntryMixin"
-  ],
-  "injectors": {
-    "defaultRequire": 1
-  }
+    "required": true,
+    "minVersion": "0.8",
+    "package": "net.replaceitem.dynamicappicon.mixin",
+    "compatibilityLevel": "JAVA_25",
+    "mixins": [],
+    "client": [
+        "MinecraftClientMixin",
+        "MultiplayerServerListWidgetServerEntryMixin",
+        "WorldIconAccessor",
+        "WorldListWidgetWorldEntryMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
 }
