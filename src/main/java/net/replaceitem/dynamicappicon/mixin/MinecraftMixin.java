@@ -2,12 +2,13 @@ package net.replaceitem.dynamicappicon.mixin;
 
 import net.minecraft.SharedConstants;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.gui.screens.multiplayer.JoinMultiplayerScreen;
 import net.minecraft.client.gui.screens.worldselection.SelectWorldScreen;
-import net.minecraft.client.input.InputQuirks;
 import net.minecraft.server.packs.VanillaPackResources;
+import net.minecraft.util.Util;
 import net.replaceitem.dynamicappicon.DynamicAppIcon;
 import net.replaceitem.dynamicappicon.IconSetter;
 import org.jetbrains.annotations.Nullable;
@@ -28,14 +29,15 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 
 @Mixin(Minecraft.class)
-public abstract class MinecraftClientMixin implements IconSetter {
+public abstract class MinecraftMixin implements IconSetter {
     @Shadow @Final private Window window;
-    @Shadow @Nullable public Screen screen;
     @Shadow public abstract VanillaPackResources getVanillaPackResources();
-    
+
+    @Shadow @Final public Gui gui;
+
     @Override
     public void setIcon(NativeImage icon) {
-        if (InputQuirks.REPLACE_CTRL_KEY_WITH_CMD_KEY) {
+        if (Util.getPlatform() == Util.OS.OSX) {
             DynamicAppIcon.LOGGER.error("Mac is not yet supported");
             return;
         }
@@ -58,14 +60,6 @@ public abstract class MinecraftClientMixin implements IconSetter {
             this.window.setIcon(this.getVanillaPackResources(), SharedConstants.getCurrentVersion().stable() ? IconSet.RELEASE : IconSet.SNAPSHOT);
         } catch (IOException iOException) {
             DynamicAppIcon.LOGGER.error("Could not set icon back to default");
-        }
-    }
-    
-    
-    @Inject(method = "setScreen", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;updateTitle()V"))
-    private void onScreenChanged(Screen screen, CallbackInfo ci) {
-        if(this.screen instanceof TitleScreen || this.screen instanceof SelectWorldScreen || this.screen instanceof JoinMultiplayerScreen) {
-            resetIcon();
         }
     }
 }
