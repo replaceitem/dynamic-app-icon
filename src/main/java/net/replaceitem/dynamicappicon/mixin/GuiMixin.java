@@ -7,7 +7,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.gui.screens.multiplayer.JoinMultiplayerScreen;
 import net.minecraft.client.gui.screens.worldselection.SelectWorldScreen;
-import net.replaceitem.dynamicappicon.IconSetter;
+import net.replaceitem.dynamicappicon.fakes.MinecraftAccess;
 import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -25,7 +25,7 @@ public class GuiMixin {
     @Inject(method = "setScreen", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;updateTitle()V"))
     private void onScreenChanged(Screen screen, CallbackInfo ci) {
         if(this.screen instanceof TitleScreen || this.screen instanceof SelectWorldScreen || this.screen instanceof JoinMultiplayerScreen) {
-            ((IconSetter) this.minecraft).resetIcon();
+            ((MinecraftAccess) this.minecraft).dynamic_app_icon$resetIcon();
         }
     }
 }

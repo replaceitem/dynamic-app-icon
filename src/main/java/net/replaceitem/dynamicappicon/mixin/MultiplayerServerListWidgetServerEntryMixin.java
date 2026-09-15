@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(JoinMultiplayerScreen.class)
 public class MultiplayerServerListWidgetServerEntryMixin {
     @Inject(method = "join(Lnet/minecraft/client/multiplayer/ServerData;)V", at = @At("HEAD"))
-    private void onMultiplayerStart(ServerData entry, CallbackInfo ci) {
-        DynamicAppIcon.setIcon(entry.getIconBytes());
+    private void onMultiplayerStart(ServerData data, CallbackInfo ci) {
+        DynamicAppIcon.setIcon(data.getIconBytes());
     }
 }

@@ -5,9 +5,10 @@
     "compatibilityLevel": "JAVA_25",
     "mixins": [],
     "client": [
-        "MinecraftMixin",
         "GuiMixin",
+        "MinecraftMixin",
         "MultiplayerServerListWidgetServerEntryMixin",
+        "WindowMixin",
         "WorldIconAccessor",
         "WorldListWidgetWorldEntryMixin"
     ],

@@ -2,6 +2,7 @@ package net.replaceitem.dynamicappicon;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.Minecraft;
+import net.replaceitem.dynamicappicon.fakes.MinecraftAccess;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.mojang.blaze3d.platform.NativeImage;
@@ -17,7 +18,7 @@ public class DynamicAppIcon implements ClientModInitializer {
     }
 
     public static void setIcon(NativeImage icon) {
-        ((IconSetter) Minecraft.getInstance()).setIcon(icon);
+        ((MinecraftAccess) Minecraft.getInstance()).dynamic_app_icon$setCustomIcon(icon);
     }
 
     public static void setIcon(byte[] favicon) {
@@ -34,6 +35,6 @@ public class DynamicAppIcon implements ClientModInitializer {
     }
 
     public static void resetIcon() {
-        ((IconSetter) Minecraft.getInstance()).resetIcon();
+        ((MinecraftAccess) Minecraft.getInstance()).dynamic_app_icon$resetIcon();
     }
 }
